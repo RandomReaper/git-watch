@@ -34,33 +34,40 @@ if [ -z "${GITCMD+x}" ]; then
 fi
 
 mkdir -p "$CACHE_DIRECTORY"/"$NAME" || exit 1
-if [ ! -d "$CLONEDIR" ]; then
-	git clone "$GITSRC" "$CLONEDIR" || exit 1
-else
+
+
+while true
+do
+	if [ ! -d "$CLONEDIR" ]; then
+		git clone "$GITSRC" "$CLONEDIR" || exit 1
+	else
+		cd "$CLONEDIR" || exit 1
+		git fetch --all || exit 1
+		git reset --hard origin/master || exit 1
+	fi
+
 	cd "$CLONEDIR" || exit 1
-	git fetch --all || exit 1
-	git reset --hard origin/master || exit 1
-fi
+	git log -n1 "$CLONEDIR"
+	OUT=$(mktemp -t "git-watch-$NAME-out.XXXXXX")
+	ERR=$(mktemp -t "git-watch-$NAME-err.XXXXXX")
+	if $GITCMD >"$OUT" 2>"$ERR" ; then
+		echo success
+		echo STDOUT:
+		cat "$OUT"
+		echo
+		echo STDERR:
+		cat "$ERR"
+		echo
+	else
+		echo error
+		echo STDOUT:
+		cat "$OUT"
+		echo
+		echo STDERR:
+		cat "$ERR"
+		echo
+	fi
+	rm -f "$OUT" "$ERR"
 
-cd "$CLONEDIR" || exit 1
-
-OUT=$(mktemp -t "git-watch-$NAME-out.XXXXXX")
-ERR=$(mktemp -t "git-watch-$NAME-err.XXXXXX")
-if $GITCMD >"$OUT" 2>"$ERR" ; then
-	echo success
-	echo STDOUT:
-	cat "$OUT"
-	echo
-	echo STDERR:
-	cat "$ERR"
-	echo
-else
-	echo error
-	echo STDOUT:
-	cat "$OUT"
-	echo
-	echo STDERR:
-	cat "$ERR"
-	echo
-fi
-rm -f "$OUT" "$ERR"
+	inotifywait "$GITSRC"/.git/refs/heads/master
+done
