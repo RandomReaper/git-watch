@@ -1,12 +1,12 @@
 # git-watch
 systemd service watching for commits in a git repository and trigger an action.
 
-# Install
+## Install
 git clone https://github.com/RandomReaper/git-watch.git
 cd git-watch
 sudo ./install.sh
 
-# Example use
+## Example use
 * Create a git repository
 ```
 cd /tmp/
@@ -47,6 +47,7 @@ MMM DD HH:15:11 rr-linux git-watch(test)[PID]: ---
 MMM DD HH:15:11 rr-linux git-watch(test)[PID]: Setting up watches.
 MMM DD HH:15:11 rr-linux git-watch(test)[PID]: Watches established.
 ```
+
 * Do some changes to the repository
 ```
 cd /tmp/test
@@ -55,6 +56,7 @@ git add test.txt
 git commit -a -m "testing git-watch"
 
 ```
+
 * Sample output on syslog:
 ```
 MMM DD HH:17:42 rr-linux git-watch(test)[PID]: /tmp/test/.git/refs/heads/master OPEN
