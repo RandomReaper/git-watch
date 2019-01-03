@@ -2,9 +2,11 @@
 systemd service watching for commits in a git repository and trigger an action.
 
 ## Install
+```
 git clone https://github.com/RandomReaper/git-watch.git
 cd git-watch
 sudo ./install.sh
+```
 
 ## Example use
 * Create a git repository
