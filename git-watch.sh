@@ -54,18 +54,18 @@ do
 		echo success
 		echo STDOUT:
 		cat "$OUT"
-		echo
+		echo ---
 		echo STDERR:
 		cat "$ERR"
-		echo
+		echo ---
 	else
 		echo error
 		echo STDOUT:
 		cat "$OUT"
-		echo
+		echo ---
 		echo STDERR:
 		cat "$ERR"
-		echo
+		echo ---
 	fi
 	rm -f "$OUT" "$ERR"
 

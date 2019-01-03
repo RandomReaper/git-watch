@@ -6,7 +6,6 @@ Before=systemd-user-sessions.service
 Documentation=https://github.com/RandomReaper/git-watch
 
 [Service]
-PrivateTmp=true
 Type=simple
 ExecStart=/usr/bin/git-watch.sh %i
 ProtectSystem=yes
