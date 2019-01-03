@@ -1,5 +1,8 @@
 # git-watch
-systemd service watching for commits in a git repository and trigger an action.
+systemd service watching for commits in a (file-accessible) git repository and
+trigger an action.
+
+Can be used to implement a primitive build server.
 
 ## Install
 ```
@@ -7,6 +10,26 @@ git clone https://github.com/RandomReaper/git-watch.git
 cd git-watch
 sudo ./install.sh
 ```
+
+## Configuration
+Configuration is done in the `/etc/git-watch` directory. Each git repository to
+be watched should have it's own configuration file.
+
+```
+#
+# GITSRC : path of a local (== not remote, but could be a bare) repository.
+# 
+GITSRC="/tmp/test"
+
+#
+# GITCMD Command to be executed into the repository
+# 
+# If the command is inside the directory, it can be called using ./
+GITCMD="md5sum *"
+```
+
+The systemd service is a template, so if the configuration filename is
+`test`, the service name is `git-watch@test`.
 
 ## Example use
 * Create a git repository
