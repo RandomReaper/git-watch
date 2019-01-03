@@ -1,0 +1,24 @@
+[Unit]
+Description=git-watch %i
+PartOf=git-watch.service
+ReloadPropagatedFrom=git-watch.service
+Before=systemd-user-sessions.service
+Documentation=https://github.com/RandomReaper/git-watch
+
+[Service]
+PrivateTmp=true
+Type=simple
+ExecStart=/usr/bin/git-watch.sh %i
+ProtectSystem=yes
+WorkingDirectory=/etc/git-watch
+User=nobody
+Group=nogroup
+PermissionsStartOnly=true
+ExecStartPre=/bin/mkdir -p /var/cache/git-watch
+ExecStartPre=/bin/chown -R nobody:nogroup /var/cache/git-watch
+SyslogIdentifier=git-watch(%i)
+
+[Install]
+WantedBy=multi-user.target
+
+
