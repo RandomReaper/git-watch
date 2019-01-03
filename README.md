@@ -7,28 +7,28 @@ cd git-watch
 sudo ./install.sh
 
 # Example use
-0. Create a git repository
-   ```
+* Create a git repository
+```
 cd /tmp/
 git init test
 cd test
 echo "just a test" > test.txt
 git add test.txt
 git commit -a -m "Initial commit."
-   ```
+```
 
-0. Create a config file : `/etc/watch-git/test`
-   ```
+* Create a config file : `/etc/watch-git/test`
+```
 GITSRC="/tmp/test"
 GITCMD="md5sum *"
-   ```
+```
 
-0. Start the service
+* Start the service
 ```
 sudo systemctl start git-watch@test
 ```
 
-0. Sample output on syslog:
+* Sample output on syslog:
 ```
 MMM DD HH:15:11 rr-linux systemd[1]: Starting git-watch test...
 MMM DD HH:15:11 rr-linux systemd[1]: Started git-watch test.
@@ -47,7 +47,7 @@ MMM DD HH:15:11 rr-linux git-watch(test)[PID]: ---
 MMM DD HH:15:11 rr-linux git-watch(test)[PID]: Setting up watches.
 MMM DD HH:15:11 rr-linux git-watch(test)[PID]: Watches established.
 ```
-0. Do some changes to the repository
+* Do some changes to the repository
 ```
 cd /tmp/test
 echo "A new line" >> test.txt
@@ -55,7 +55,7 @@ git add test.txt
 git commit -a -m "testing git-watch"
 
 ```
-0. Sample output on syslog:
+* Sample output on syslog:
 ```
 MMM DD HH:17:42 rr-linux git-watch(test)[PID]: /tmp/test/.git/refs/heads/master OPEN
 MMM DD HH:17:42 rr-linux git-watch(test)[PID]: Fetching origin
